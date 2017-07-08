@@ -2,9 +2,9 @@
   <div class="col-sm-4"></div>
   <div class="col-sm-4">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Where to...">
+      <input ng-model="ctrl.query" type="text" class="form-control" placeholder="Where to...">
       <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button">Go!</button>
+        <button ng-click="ctrl.onClick()" class="btn btn-secondary" type="button">Go!</button>
       </span>
     </div>
   </div>

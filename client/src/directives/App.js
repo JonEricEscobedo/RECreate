@@ -7,13 +7,12 @@ angular.module('recreate', [])
     bindToController: true,
     controller: function($http) {
       this.search = (location) => {
-        console.log('here is the location:', location);
+        // console.log('here is the location:', location);
         let context = this;
 
         $http.post('/search', {location: location})
-
-        .then((coords) => {
-          console.log(coords);
+        .then((campgrounds) => {
+          console.log(campgrounds.data);
         });
 
       };

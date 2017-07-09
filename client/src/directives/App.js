@@ -6,13 +6,20 @@ angular.module('recreate', [])
     controllerAs: 'ctrl',
     bindToController: true,
     controller: function($http) {
+      this.camps;
+
       this.search = (location) => {
         // console.log('here is the location:', location);
         let context = this;
 
         $http.post('/search', {location: location})
         .then((campgrounds) => {
-          console.log(campgrounds.data);
+          // context.camps.push(campgrounds.data);
+          context.camps = campgrounds.data;
+          console.log(context.camps);
+        })
+        .catch((error) => {
+          console.error('There was an error handling the last request:', error);
         });
 
       };

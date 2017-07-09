@@ -62,7 +62,7 @@ router.route('/search')
       let promises = [];
 
       for (let ground in campgrounds) {
-        url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_KEY}&text=${ground}&sort=interestingness-desc&format=json&nojsoncallback=1`;
+        url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_KEY}&text=${ground}+%22landscape%22&sort=interestingness-desc&format=json&nojsoncallback=1`;
         promises.push(axios.get(url));
       }
 
@@ -80,7 +80,7 @@ router.route('/search')
           campgrounds[ground].photos.push(`https://farm${farmId}.staticflickr.com/${serverId}/${id}_${secret}_b.jpg`);
         }
       }
-      
+
       res.status(200).send(campgrounds);
     });
   });

@@ -29,7 +29,7 @@ router.route('/search')
       console.log('Geo-coords:', lat, lng);
       // Return campgrounds near the geo-coordinates
 
-      return axios.get(`http://api.amp.active.com/camping/campgrounds?landmarkName=true&landmarkLat=${lat}&landmarkLong=${lng}&xml=true&api_key=${ACTIVE_KEY}`);
+      return axios.get(`http://api.amp.active.com/camping/campgrounds?landmarkName=true&landmarkLat=${lat}&landmarkLong=${lng}&siteType=2003&xml=true&api_key=${ACTIVE_KEY}`);
     })
     .then((camps) => {
       let json = parser.toJson(camps.data);
@@ -39,7 +39,8 @@ router.route('/search')
       let campLength = json.resultset.result.length;
 
       for (i = 0; i < campLength; i++) {
-        if (json.resultset.result[i].availabilityStatus === 'Y' && json.resultset.result[i].contractID !== 'INDP') {
+        // if (json.resultset.result[i].availabilityStatus === 'Y' && json.resultset.result[i].contractID !== 'INDP') {
+        if (json.resultset.result[i].contractType === 'FEDERAL' && json.resultset.result[i].availabilityStatus === 'Y') {
           let tempObj = {};
           tempObj[json.resultset.result[i].facilityName] = {
             facilityID: json.resultset.result[i].facilityID,
@@ -47,12 +48,18 @@ router.route('/search')
             latitude: json.resultset.result[i].latitude,
             longitude: json.resultset.result[i].longitude,
             state: json.resultset.result[i].state
-          }
+          };
           campgrounds.push(tempObj);
 
         }
       }
-
+      if (campgrounds.length === 0) {
+        let unavailable = {};
+        unavailable['Sorry!'] = {
+          'description': 'This time of year is busy. All the federal campsites are booked up.'
+        };
+        res.status(200).send(unavailable);
+      }
      
       let promises = [];
       for (let ground in campgrounds[0]) {

@@ -1,3 +1,7 @@
 <div ng-repeat="(key, value) in ctrl.camps">
-  <h1 class="display-4">{{key}}<h1>
+  <p class="display-4">{{key}}<p>
+  <p>{{value.description}}</p>
+  <div ng-repeat="photo in value.photos">
+    <img src={{photo}}>
+  </div>
 </div>

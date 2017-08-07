@@ -41,6 +41,7 @@ router.route('/search')
       for (i = 0; i < campLength; i++) {
         // if (json.resultset.result[i].availabilityStatus === 'Y' && json.resultset.result[i].contractID !== 'INDP') {
         if (json.resultset.result[i].contractType === 'FEDERAL' && json.resultset.result[i].availabilityStatus === 'Y') {
+          // console.log(json.resultset.result[i])
           let tempObj = {};
           tempObj[json.resultset.result[i].facilityName] = {
             facilityID: json.resultset.result[i].facilityID,
